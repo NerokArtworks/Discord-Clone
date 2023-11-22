@@ -13,6 +13,7 @@ const ServerIdLayout = async ({
 }) => {
   const profile = await currentProfile();
 
+   // Comprobar que exista el perfil (este logueado)
   if (!profile) {
     return redirectToSignIn();
   }
