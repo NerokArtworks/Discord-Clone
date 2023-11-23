@@ -47,6 +47,8 @@ const ChannelIdPage = async ({ params }: ChannelIdPageProps) => {
         serverId={channel.serverId}
         name={channel.name}
         type={"channel"}
+        // Extra: Le paso el icono del tipo de channel
+        icon={channel.type}
       />
     </div>
   );
