@@ -3,6 +3,7 @@ import { Hash, Mic, Video } from "lucide-react";
 import { MobileToggle } from "@/components/mobile-toggle";
 import { UserAvatar } from "@/components/user-avatar";
 import { ChannelType } from "@prisma/client";
+import { SocketIndicator } from "@/components/socket-indicator";
 
 // El header tiene que recibir el id del servidor, el nombre del channel / conversation y de que tipo es
 interface ChatHeaderProps {
@@ -43,6 +44,9 @@ export const ChatHeader = ({
         <UserAvatar src={imageUrl} className="h-8 w-8 md:h-8 md:w-8 mr-2" />
       )}
       <p className="font-semibold text-md text-black dark:text-white">{name}</p>
+      <div className="ml-auto flex items-center">
+        <SocketIndicator />
+      </div>
     </div>
   );
 };
