@@ -1,9 +1,16 @@
 "use client";
 
-import { Member } from "@prisma/client";
+import { Fragment } from "react";
+import { Member, Message, Profile } from "@prisma/client";
 import { ChatWelcome } from "./chat-welcome";
 import { useChatQuery } from "@/hooks/use-chat-query";
-import { Loader2 } from "lucide-react";
+import { Loader2, ServerCrash } from "lucide-react";
+
+type MessageWithMemberWithProfile = Message & {
+    member: Member & {
+        profile: Profile
+    }
+}
 
 interface ChatMessagesProps {
     name: string;
@@ -54,6 +61,17 @@ export const ChatMessages = ({
         )
     }
 
+    if (status === "error") {
+        return (
+            <div className="flex flex-col flex-1 justify-center items-center">
+                <ServerCrash className="h-7 w-7 text-zinc-500 my-4" />
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    Something went wrong!
+                </p>
+            </div>
+        )
+    }
+
     return (
         <div className="flex-1 flex flex-col py-4 overflow-y-auto">
             <div className="flex-1" />
@@ -61,6 +79,17 @@ export const ChatMessages = ({
                 type={type}
                 name={name}
             />
+            <div className="flex fex-col-reverse mt-auto">
+                {data?.pages?.map((group, i) => (
+                    <Fragment key={i}>
+                        {group.items.map((message: MessageWithMemberWithProfile) => (
+                            <div key={message.id}>
+                                {message.content}
+                            </div>
+                        ))}
+                    </Fragment>
+                ))}
+            </div>
         </div>
     )
 }
